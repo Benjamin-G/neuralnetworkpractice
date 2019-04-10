@@ -1,10 +1,16 @@
 import NeuralNetwork as nn
 import numpy as np
 
+with np.load('mnist.npz') as data:
+    training_images = data['training_images']
+    training_labels = data['training_labels']
 
-layer_sizes = (3, 5, 10)
-x = np.ones((layer_sizes[0], 1))
+layer_sizes = (784, 5, 10)
+
 
 net = nn.NeuralNetwork(layer_sizes)
-prediction = net.predict(x)
+net.print_accuracy(training_images, training_labels)
+
+
+
 
