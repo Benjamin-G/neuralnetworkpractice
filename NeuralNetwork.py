@@ -24,7 +24,7 @@ class NeuralNetwork:
         # Return Output layer
         return self.activations[-1]
 
-    def training_sgd(self, training_images, training_labels, epochs, batch_size, learning_rate):
+    def train_sgd(self, training_images, training_labels, epochs, batch_size, learning_rate):
         # Train using Stochastic Gradient Decent
 
         training_data = [(x, y) for x, y in zip(training_images, training_labels)]
@@ -41,7 +41,7 @@ class NeuralNetwork:
     def update_batch(self, batch, learning_rate):
         # direction of gradient determines the change to weights and biases
         bias_gradients = [np.zeros(b.shape) for b in self.biases]
-        weights_gradients = [np.zeros(w.shape) for w in self.weights]
+        weight_gradients = [np.zeros(w.shape) for w in self.weights]
 
         for sample, label in batch:
             # calc the direction of the gradient
@@ -67,8 +67,8 @@ class NeuralNetwork:
         # theory by 3Blue1Brown: https://youtu.be/tIeHLnjs5U8
         L = -1
 
-        partial_deltas = self.cost_function_derivative(self.activations[L], label) * self.cost_function_derivative(
-            self.activations[L])
+        partial_deltas = self.cost_function_derivative(self.activations[L], label) * \
+                         self.activation_function_derivative(self.activations[L])
 
         bias_deltas[L] = partial_deltas
         weight_deltas[L] = np.dot(partial_deltas, self.activations[L - 1].T)
